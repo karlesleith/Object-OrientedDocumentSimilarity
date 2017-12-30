@@ -6,19 +6,22 @@ import java.util.List;
 public class JaccardSimerlarityImpl implements JaccardSimerlarity {
 
 	@Override
-	public List<Integer> StringToHashConverter(ArrayList<String> x) {
-		List<Integer> Chash = new ArrayList<Integer>();
+	public ArrayList<Integer> StringToHashConverter(ArrayList<String> x) {
+		ArrayList<Integer> Shash = new ArrayList<Integer>();
+		
 		for(String str : x) {
-			
-			Chash.add(str.hashCode());
+			//Getting Rid of any whitespace in array
+			//System.out.println(str.hashCode());
+			Shash.add(str.hashCode());
 		}
-		
-		System.out.println(Chash);
+		/*
+		System.out.println(x);
+		System.out.println(Shash);
 		System.out.println("THIS RESULT CAME BACK FROM JSI");
-		
-		return Chash;
+		*/
+		return Shash;
 	}
-
+	
 	@Override
 	public void Shingle() {
 		// TODO Auto-generated method stub
@@ -26,7 +29,7 @@ public class JaccardSimerlarityImpl implements JaccardSimerlarity {
 	}
 
 	@Override
-	public List<Integer> ArrayListIntersection(ArrayList<Integer> x, ArrayList<Integer> y) {
+	public ArrayList<Integer> ArrayListIntersection(ArrayList<Integer> x, ArrayList<Integer> y) {
 		ArrayList<Integer>  ListIntersection = new ArrayList<>(); 
 		int i=0,j = 0;
 		
@@ -73,7 +76,7 @@ public class JaccardSimerlarityImpl implements JaccardSimerlarity {
 
 	//Provides the Union of Each Array
 	@Override
-	public List<Integer> ArrayListUnion(ArrayList<Integer> x, ArrayList<Integer> y) {
+	public ArrayList<Integer> ArrayListUnion(ArrayList<Integer> x, ArrayList<Integer> y) {
 		
 		ArrayList<Integer>  ListUnion = new ArrayList<>(); 
 		int i=0,j = 0;
@@ -111,16 +114,18 @@ public class JaccardSimerlarityImpl implements JaccardSimerlarity {
 	                i++;
 	            }
 	        
-	        if(j<n2)
+		 if(j<n2)
 	            while(j<n2)
 	            {
 	            	ListUnion.add(y.get(j));
 	                j++;
 	            }
-		System.out.println("The Union is"+ListUnion);
+		System.out.println("\nThe Union is"+ListUnion);
 		System.out.println("\nSize of Array Lists: "+n1 +"	"+n2 + " //THIS CAME FROM "+this.getClass()+"\n");
 		
 		return null;
 	}
+
+	
 
 }

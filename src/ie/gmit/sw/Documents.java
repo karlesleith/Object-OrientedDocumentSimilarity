@@ -1,13 +1,21 @@
 package ie.gmit.sw;
 
+import java.util.TreeMap;
+
 public class Documents {
 	private String docName;
-	private String docTxt;
+	private TreeMap<String,Integer> shingles;
 	
 	
-	public Documents(String n, String txt) {
+	public Documents(String n,  TreeMap<String,Integer> shingles) {
 		setDocName(n);
-		setDocTxt(txt);
+		setShingles(shingles);
+	
+	}
+	
+	public Documents(String n) {
+		setDocName(n);
+		setShingles(shingles);
 	}
 	
 	//Getting/Setting name of the Document Added to database
@@ -19,17 +27,15 @@ public class Documents {
 		this.docName = docName;
 	}
 
-	//getting/setting DocText
-	public String getDocTxt() {
-		return docTxt;
+	public TreeMap<String, Integer> getShingles() {
+		return shingles;
 	}
 
-	/**
-	 * @param docTxt the docTxt to set
-	 */
-	public void setDocTxt(String docTxt) {
-		this.docTxt = docTxt;
+	public void setShingles(TreeMap<String, Integer> shingles) {
+		this.shingles = shingles;
 	}
+
+
 	
 	
 

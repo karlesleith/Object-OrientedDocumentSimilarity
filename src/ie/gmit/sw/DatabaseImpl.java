@@ -26,12 +26,13 @@ import com.db4o.ta.TransparentPersistenceSupport;
 import xtea_db4o.XTEA;
 import xtea_db4o.XTeaEncryptionStorage;
 
+//This class is the logic implementation of the Database classes
 public class DatabaseImpl implements Database  {
 	
 	private ObjectContainer db = null;
-	private List<Documents> docs = new ArrayList<Documents>();
 	
-	public DatabaseImpl() {
+	public DatabaseImpl() throws IOException {
+		
 		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
 		config.common().add(new TransparentActivationSupport()); //Real lazy. Saves all the config commented out below
 		config.common().add(new TransparentPersistenceSupport()); //Lazier still. Saves all the config commented out below
@@ -52,52 +53,38 @@ public class DatabaseImpl implements Database  {
 		*/
 
 		//Open a local database. Use Db4o.openServer(config, server, port) for full client / server
-		db = Db4oEmbedded.openFile(config, "docs.data");	
-	}
+		db = Db4oEmbedded.openFile(config, "docs.data");
+		init();//One the first run put War and peace in the DB
+		}
 
 	@Override
-	public void init(String textFile) throws Exception {
-	
+	public void init() {
+		//On the First run of the code the database will be empty, so we will put war and peace in it
 		//Pass in the Shingles into the DB
-		Scanner in = new Scanner(System.in);
-		System.out.println("Please Enter the name of the Document: ");
-		String input = in.nextLine();
+		//Scanner in = new Scanner(System.in);
+		//System.out.println("Please Enter the name of the Document: ");
+		//String input = in.nextLine();
 		
 		JaccardImpl JI = new JaccardImpl();
 		
 		TreeMap<String,Integer> shingles = new TreeMap<String,Integer>(); 
-		shingles = JI.Shingle(textFile);
+		shingles = JI.Shingle("war-and-peace.txt");
 		
 		//System.out.println(shingles);
 		
-		Documents doc = new Documents(input, shingles);
-		db.store(doc);
+		Documents doc = new Documents("War and Peace", shingles);
+		
 		
 		//System.out.println(doc.getShingles());
-		
 		ObjectSet<Documents> docs = db.query(Documents.class);
-		for (Documents d : docs) {
-			
-			//Pull some random shingles
-			Random random = new Random();
-			List<String> keys = new ArrayList<String>(d.getShingles().keySet());
-			String randomKey = keys.get(random.nextInt(keys.size()));
-			
-			List<String> randomElems = new ArrayList<String>();
-			
-			for (int i=0; i<10;i++) {
-				
-				randomKey = keys.get(random.nextInt(keys.size()));
-				Integer value = d.getShingles().get(randomKey);
-				randomElems.add(randomKey);
-			}
-			
-			
-			out.println("[Doc] " + d.getDocName()  + "\t Database ObjID: "+ db.ext().getID(d));
-			out.println("[Shingles] "+ randomElems);
-			//Removing objects from the database is as easy as adding them
-			//db.delete(customer);
-			db.commit();
+		
+		//System.out.println(docs);
+		if(docs.isEmpty() == false) {
+			listDatabaseDocs();
+		}else {
+		out.println("The Database is Empty, initialize with default \"Documents\" Object: "+doc.getDocName());
+		db.store(doc);
+		listDatabaseDocs();
 		}
 		
 	}
@@ -129,33 +116,36 @@ public class DatabaseImpl implements Database  {
 		
 	
 		ObjectSet<Documents> docs = db.query(Documents.class);
+		
 		for (Documents d : docs) {
-			
-			
-			//Pull some random shingles
-			Random random = new Random();
-			List<String> keys = new ArrayList<String>(d.getShingles().keySet());
-			String randomKey = keys.get(random.nextInt(keys.size()));
-			
-			List<String> randomElems = new ArrayList<String>();
-			
-			for (int i=0; i<10;i++) {
 				
-				randomKey = keys.get(random.nextInt(keys.size()));
-				Integer value = d.getShingles().get(randomKey);
-				randomElems.add(randomKey);
-			}
-			
-			out.println("[Doc] " + d.getDocName()  + "\t Database ObjID: "+ db.ext().getID(d));
-			out.println("[Shingles]"+randomElems);
-			//Removing objects from the database is as easy as adding them
-			//db.delete(customer);
-			db.commit();
-		}	
+				
+				//Pull some random shingles
+				Random random = new Random();
+				List<String> keys = new ArrayList<String>(d.getShingles().keySet());
+				String randomKey = keys.get(random.nextInt(keys.size()));
+				
+				List<String> randomElems = new ArrayList<String>();
+				
+				for (int i=0; i<10;i++) {
+					
+					randomKey = keys.get(random.nextInt(keys.size()));
+					Integer value = d.getShingles().get(randomKey);
+					randomElems.add(randomKey);
+				}
+				
+				out.println("[Doc] " + d.getDocName()  + "\t Database ObjID: "+ db.ext().getID(d));
+				out.println("[Shingles]"+randomElems);
+				//Removing objects from the database is as easy as adding them
+				//db.delete(customer);
+				db.commit();
+			}		
+		}
+
 		
 		
 	}
 
 
 
-}
+

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//This class is the logic implementation for the reader for the documents that are originally stored in the DB
+
 public class DocumentHandlerImpl implements DocumentHandler{
 
 	@Override

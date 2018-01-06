@@ -2,6 +2,9 @@ package ie.gmit.sw;
 
 import java.util.TreeMap;
 
+//This class acts as the objects that will be passed into the database, here we define the 2 parts of the Object
+//we will be storing, 1. The String that will be used to store the Document Name the user inputs, 2. The TreeMap that will store
+//the Shingle<String> and the HashCode<Integer>
 public class Documents {
 	private String docName;
 	private TreeMap<String,Integer> shingles;

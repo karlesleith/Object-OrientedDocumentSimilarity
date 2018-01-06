@@ -10,14 +10,22 @@ public class Runner {
 		
 		
 		
-		Documents d = new Documents("War and Peace");
+		Documents d = new Documents("War And Peace");
+		Documents c = new Documents("Return of Sherlock Holmes");
 		
 		//JaccardImpl JSI = new JaccardImpl();
 		//System.out.println(JSI.Shingle(A));
 		//System.out.println(JSI.Shingle(B));
 		
 		DatabaseImpl DI = new DatabaseImpl();
-		DI.init("war-and-peace.txt");
+		//DI.listDatabaseDocs();
+	
+		
+		
+		//System.out.println(DI.getFromDatabase(d));
+		JaccardImpl JI = new JaccardImpl();
+		JI.PercentageOfSimerlarity(DI.getFromDatabase(d),DI.getFromDatabase(c));
+		
 		//System.out.println(DI.getFromDatabase(d));
 		//System.out.println();
 		

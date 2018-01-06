@@ -27,5 +27,5 @@ The purpose of this assignment is to demonstrate my knowledge of the principles 
 inheritance and polymorphism throughout the application 
 
 ## How to Run Application
-// TO DO !!!
+1. Install Tomcat Version 9.0 from the site https://tomcat.apache.org/download-90.cgi
 

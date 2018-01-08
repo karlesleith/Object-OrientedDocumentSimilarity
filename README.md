@@ -7,9 +7,8 @@ WAR AND PEACE :https://github.com/fluentpython/example-code
 Return of Sherlock Holmes : https://sherlock-holm.es/ascii/
 
 ## UML Diagram
-// TO DO !!!
-
-##Current Bugs in the Application;
+![Design](https://github.com/karlesleith/Object-OrientedDocumentSimilarity/blob/master/uml.png)
+## Current Bugs in the Application;
 Jaccard Simerlarity Percentage won't return to Screen, will return in console!
 (Use the Runner test class to compare documents)
 

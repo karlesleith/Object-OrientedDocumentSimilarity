@@ -1,10 +1,19 @@
 package ie.gmit.sw;
 
 import java.io.*;
+import java.util.ArrayList;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 public class ServicePollHandler extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private double sim;
+
 	public void init() throws ServletException {
 		ServletContext ctx = getServletContext();
 	}
@@ -12,9 +21,12 @@ public class ServicePollHandler extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html"); 
 		PrintWriter out = resp.getWriter(); 
-		
+		WorkerImpl Wi = new WorkerImpl();
 		String title = req.getParameter("txtTitle");
 		String taskNumber = req.getParameter("frmTaskNumber");
+		
+
+		System.out.println("[Debug ServletPollHandler Sim :]"+sim );
 		int counter = 1;
 		if (req.getParameter("counter") != null){
 			counter = Integer.parseInt(req.getParameter("counter"));
@@ -27,7 +39,7 @@ public class ServicePollHandler extends HttpServlet {
 		out.print("<H1>Processing request for Job#: " + taskNumber + "</H1>");
 		out.print("<H3>Document Title: " + title + "</H3>");
 		out.print("<b><font color=\"ff0000\">A total of " + counter + " polls have been made for this request.</font></b> ");
-		out.print("Place the final response here... a nice table (or graphic!) of the document similarity...");
+		out.print("The percentage of simerlarity is: "+sim+ "%");
 		
 		out.print("<form name=\"frmRequestDetails\">");
 		out.print("<input name=\"txtTitle\" type=\"hidden\" value=\"" + title + "\">");

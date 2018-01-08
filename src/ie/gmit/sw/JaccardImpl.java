@@ -1,7 +1,8 @@
 package ie.gmit.sw;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
+import java.util.Random;
 import java.util.TreeMap;
 
 
@@ -11,21 +12,22 @@ public class JaccardImpl implements Jaccard {
 	
 	//Takes on the txt object and Shingles it for us, it also gives each Shingle an Hashcode
 	@Override
-	public TreeMap<String, Integer> Shingle(String txt) {
+	public TreeMap<String, Integer> DocShingle() {
 		//REF: https://www.programcreek.com/java-api-examples/index.php?source_dir=StatusParser-master/com/statusParser/Shingle.java
 		DocumentHandlerImpl DHI = new DocumentHandlerImpl();
-		ArrayList<String> docArray = DHI.docReader(txt);
+		ArrayList<String> docArray = DHI.docReader();
 		String[] lines =docArray.toArray(new String[docArray.size()]);
 		TreeMap<String, Integer> shingles = new  TreeMap<String, Integer>();
-		System.out.println("This is called from "+this.getClass()+ " txt: "+ txt);
-		
+		System.out.println("This is called from "+this.getClass());
+		Boolean full = false;
+		int shingleCnt;
 		//Just alerting the user that something is happening
 		System.out.println("Please wait...Shingleing!");
 		for(String line : lines) {
 	        String words[] = line.split(" "); 
 	        
 	        int shinglesNumber = words.length -3; 
-	       
+	
 	        int i =0; int j=0;
 			
 	        //Create all shingles 
@@ -37,11 +39,10 @@ public class JaccardImpl implements Jaccard {
 	                shingle = shingle + words[i+j] + " "; 
 	                //System.out.println(j);
 	               
-	                if (j==2) {
+	            	
 	                	//System.out.println(shingle);
 	                	shingles.put(shingle,shingle.hashCode());
-	                	
-	                }
+	                
 	            }
 	        }
         }
@@ -50,6 +51,47 @@ public class JaccardImpl implements Jaccard {
 	
 		return shingles;
 	}
+	
+	public TreeMap<String, Integer> Shingle(ArrayList<String> ls) {
+		//REF: https://www.programcreek.com/java-api-examples/index.php?source_dir=StatusParser-master/com/statusParser/Shingle.java
+		String[] lines =ls.toArray(new String[ls.size()]);
+		TreeMap<String, Integer> shingles = new  TreeMap<String, Integer>();
+		//System.out.println("This is called from "+this.getClass()+ " txt: "+ txt);
+		
+		//Just alerting the user that something is happening
+		System.out.println("Please wait...Shingleing![2]");
+		for(String line : lines) {
+	        String words[] = line.split(" "); 
+	        
+	        int shinglesNumber = words.length -3; 
+	       
+	        int i =0; int j=0;
+	      
+	        //Create all shingles 
+	        for ( i = 0; i <= shinglesNumber; i++) { 
+	            String shingle = ""; 
+	         
+	            //Create one shingle 
+	            for ( j = 0; j < 3; j++) { 
+	                shingle = shingle + words[i+j] + " "; 
+	                //System.out.println(j);
+	              
+	             
+	                	//System.out.println(shingle);
+	                	shingles.put(shingle,shingle.hashCode());
+	   
+	                	
+	                
+	            }
+	            
+	        }
+        }
+        //DONE!
+		System.out.println("Done[2] ");
+	
+		return shingles;
+	}
+	
 	
 	//Finding the common elements between 2 shingles maps and outputing an Array of the intersection
 	@Override
@@ -68,8 +110,6 @@ public class JaccardImpl implements Jaccard {
 		    	ListIntersection.add(x.get(k));
 		    }
 		} 
-		int i=0,j = 0;
-		
 		
 	//	System.out.println("The intersection is: "+ListIntersection);
 		System.out.println("\nSize of Array Lists: "+n1 +"	"+n2 + " //THIS CAME FROM "+this.getClass());
@@ -104,10 +144,10 @@ public class JaccardImpl implements Jaccard {
 
 	//We define the Jaccard Simerlarity
 	@Override
-	public void PercentageOfSimerlarity(TreeMap<String, Integer> x, TreeMap<String, Integer> y) {
+	public double PercentageOfSimerlarity(TreeMap<String, Integer> x, TreeMap<String, Integer> y) {
 		ArrayList<Integer>  ListIntersection =ShingleListIntersection(x, y);
 		ArrayList<Integer>  ListUnion= ShingleListUnion(x, y);
-		
+		System.out.println("[Jaccard  PoS Debug 1]");
 		int n1 = ListIntersection.size();
 		int n2 = ListUnion.size();
 		float percentageOfSim = 0;
@@ -116,6 +156,7 @@ public class JaccardImpl implements Jaccard {
 		
 		System.out.println("\nThe Percentage is " + percentageOfSim + "%");
 		
-	}
+		return percentageOfSim;
+	}	
 
 }

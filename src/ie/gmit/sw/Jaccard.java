@@ -12,9 +12,10 @@ the size of the union of the sample sets:
 
 public interface Jaccard {
 
-	public TreeMap<String,Integer> Shingle(String txt);
+	public TreeMap<String,Integer> DocShingle();
+	public TreeMap<String,Integer> Shingle(ArrayList<String> ls);
 	public ArrayList<Integer> ShingleListIntersection(TreeMap<String, Integer> x, TreeMap<String, Integer> y);
 	public ArrayList<Integer> ShingleListUnion(TreeMap<String, Integer> x, TreeMap<String, Integer> y);
-	public void PercentageOfSimerlarity(TreeMap<String,Integer> x, TreeMap<String,Integer> y);
+	public double PercentageOfSimerlarity(TreeMap<String,Integer> x, TreeMap<String,Integer> y);
 	
 }

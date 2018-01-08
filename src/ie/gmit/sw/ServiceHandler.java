@@ -129,15 +129,22 @@ public class ServiceHandler extends HttpServlet {
 		out.print("<h3>Uploaded Document</h3>");	
 		out.print("<font color=\"0000ff\">");	
 		BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream()));
-		String line = null;
+		String line = "Hello World";
 		ArrayList<String> lines = new ArrayList<String>();
 		
 			while ((line = reader.readLine()) != null) {
 				   //     System.out.println(line);
+						out.print(line);
 				        lines.add(line);
 				    }
-		System.out.println("[Debug ServletHandler 1 LINES]"+lines);
-		out.print(line);
+		
+		WorkerImpl WI = new WorkerImpl(title, lines);
+		
+		new Thread(WI).start();
+		//WI.run();
+		
+		//System.out.println("[Debug ServletHandler 1 LINES]"+lines);
+		
 		out.print("</font>");	
 	}
 

@@ -9,6 +9,11 @@ Return of Sherlock Holmes : https://sherlock-holm.es/ascii/
 ## UML Diagram
 // TO DO !!!
 
+##Current Bugs in the Application;
+Jaccard Simerlarity Percentage won't return to Screen, will return in console!
+(Use the Runner test class to compare documents)
+
+
 ## Overview
 You are required to develop a Java web application that enables two or more text documents to
 be compared for similarity.
@@ -31,3 +36,4 @@ inheritance and polymorphism throughout the application
 2. Clone the reposittory to your Desktop.
 3. Set the %CLASSPATH% Variable to ..C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\servlet-api.jar . <br /> <br />*NB if System Variable "CLASSPATH" doesn't exist, you can create one!* <br />
 4. Copy the .war file into the "webapps" folder of Apache Tomcat, and start the Tomcat Server, It will generate a new folder with the application in the same directory.
+

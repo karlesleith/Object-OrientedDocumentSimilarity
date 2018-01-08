@@ -3,23 +3,21 @@ package ie.gmit.sw;
 import static java.lang.System.out;
 
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
+
 import java.util.TreeMap;
 
-import org.w3c.dom.stylesheets.DocumentStyle;
+
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
-import com.db4o.query.Query;
+
 import com.db4o.ta.TransparentActivationSupport;
 import com.db4o.ta.TransparentPersistenceSupport;
 
@@ -68,7 +66,7 @@ public class DatabaseImpl implements Database  {
 		JaccardImpl JI = new JaccardImpl();
 		
 		TreeMap<String,Integer> shingles = new TreeMap<String,Integer>(); 
-		shingles = JI.Shingle("war-and-peace.txt");
+		shingles = JI.DocShingle();
 		
 		//System.out.println(shingles);
 		
@@ -80,7 +78,7 @@ public class DatabaseImpl implements Database  {
 		
 		//System.out.println(docs);
 		if(docs.isEmpty() == false) {
-			listDatabaseDocs();
+			//listDatabaseDocs();
 		}else {
 		out.println("The Database is Empty, initialize with default \"Documents\" Object: "+doc.getDocName());
 		db.store(doc);
@@ -90,17 +88,12 @@ public class DatabaseImpl implements Database  {
 	}
 	
 	@Override
-	public void pushToDatabase(TreeMap<String, Integer> shingles) {
-		// TO DO 
-	}
-
-	@Override
 	public TreeMap<String, Integer> getFromDatabase(Documents d) {
 		//The new Customer(...) is a prototypical instance of the object(s) we want
 				ObjectSet<Documents> document = db.queryByExample(new Documents(d.getDocName(),d.getShingles()));
 				if (document.hasNext()) {
 					out.println("[DocumenstQBE] found " +d.getDocName());
-					//System.out.println(document.next().getShingles());
+					
 				} else {
 					out.println("[Error] " +d.getDocName() + " is not in the database");
 				}
@@ -112,39 +105,67 @@ public class DatabaseImpl implements Database  {
 
 	@Override
 	public void listDatabaseDocs() {
-		
-		
-	
 		ObjectSet<Documents> docs = db.query(Documents.class);
 		
 		for (Documents d : docs) {
 				
-				
+				//N.B KEPT GETTING ERROR BOUND MUST BE POSITIVE WHEN PULL RANDOM SHINGLES
 				//Pull some random shingles
-				Random random = new Random();
-				List<String> keys = new ArrayList<String>(d.getShingles().keySet());
-				String randomKey = keys.get(random.nextInt(keys.size()));
+				//Random random = new Random();
+				//List<String> keys = new ArrayList<String>(d.getShingles().keySet());
+				//String randomKey = keys.get(random.nextInt(keys.size()));
 				
-				List<String> randomElems = new ArrayList<String>();
+				//List<String> randomElems = new ArrayList<String>();
 				
-				for (int i=0; i<10;i++) {
+				//for (int i=0; i<10;i++) {
 					
-					randomKey = keys.get(random.nextInt(keys.size()));
-					Integer value = d.getShingles().get(randomKey);
-					randomElems.add(randomKey);
-				}
+					//randomKey = keys.get(random.nextInt(keys.size()+1));
+					
+					//randomElems.add(randomKey);
+				//}
 				
 				out.println("[Doc] " + d.getDocName()  + "\t Database ObjID: "+ db.ext().getID(d));
-				out.println("[Shingles]"+randomElems);
+				//out.println("[Shingles]"+randomElems);
 				//Removing objects from the database is as easy as adding them
 				//db.delete(customer);
 				db.commit();
 			}		
 		}
 
+	@Override
+	public void pushToDatabase(String docName, TreeMap<String, Integer> shingles) {
+
+		//System.out.println(shingles);
+		
+		Documents doc = new Documents(docName, shingles);
 		
 		
-	}
+		//System.out.println(doc.getShingles());
+		ObjectSet<Documents> docs = db.query(Documents.class);
+		
+		//System.out.println(docs);
+		if(docs.isEmpty() == false) {
+			
+			db.store(doc);
+			listDatabaseDocs();
+		}else {
+			//out.println("The Database is Empty, initialize with default \"Documents\" Object: "+doc.getDocName());
+		db.store(doc);
+		
+		
+		/*
+		//Worker and Jaccard
+		Documents d = new Documents("War and Peace");
+		JaccardImpl JI = new JaccardImpl();
+		double sim = JI.PercentageOfSimerlarity(getFromDatabase(doc), getFromDatabase(d));
+		WorkerImpl wiImpl = new WorkerImpl();
+		
+		wiImpl.setSim(sim);
+		
+		*/
+		
+		}}
+}
 
 
 

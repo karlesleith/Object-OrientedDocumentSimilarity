@@ -6,7 +6,7 @@ import java.util.TreeMap;
 //to the Jaccard Interface
 public interface Database {
 	public void init() throws IOException;
-	public void pushToDatabase(TreeMap<String,Integer> shingles);
+	public void pushToDatabase(String docName, TreeMap<String,Integer> shingles);
 	public TreeMap<String,Integer> getFromDatabase(final Documents d );
 	public void listDatabaseDocs();
 }
